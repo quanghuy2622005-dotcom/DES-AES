@@ -207,7 +207,7 @@ Ban ma (bin) = 1000010111101000000100110101010000001111000010101011010000000101
 Ban ma (hex) = 85E813540F0AB405
 Dap an = 85E813540F0AB405
 
-AES-128 - Buoc 7: sinh 11 khoa.
+AES-128 - Buoc 8: vong ma hoa dau tien.
 Ban ro = 00112233445566778899AABBCCDDEEFF
 Khoa = 000102030405060708090A0B0C0D0E0F
 State ban dau:
@@ -296,3 +296,27 @@ Sau AddRoundKey 0:
 10 50 90 D0
 20 60 A0 E0
 30 70 B0 F0
+
+Vong 1
+Sau SubBytes:
+63 09 CD BA
+CA 53 60 70
+B7 D0 E0 E1
+04 51 E7 8C
+Sau ShiftRows:
+63 09 CD BA
+53 60 70 CA
+E0 E1 B7 D0
+8C 04 51 E7
+Sau MixColumns:
+5F 57 F7 1D
+72 F5 BE B9
+64 BC 3B F9
+15 92 29 1A
+Sau AddRoundKey 1:
+89 85 2D CB
+D8 5A 18 12
+10 CE 43 8F
+E8 68 D8 E4
+Moi hoan thanh vong 1, chua co ban ma AES cuoi cung.
+Da doi chieu tung buoc vong 1, ket qua dung.

@@ -85,6 +85,57 @@ void addroundkey(int a[], int k[], int vong)
     }
 }
 
+void subbytes(int a[], int n)
+{
+    for (int i = 0; i < n; i++) {
+        a[i] = sbox[a[i]];
+    }
+}
+
+void shiftrows(int a[])
+{
+    for (int i = 1; i < 4; i++) {
+        int t[4];
+        for (int j = 0; j < 4; j++) {
+            t[j] = a[i + 4 * ((j + i) % 4)];
+        }
+        for (int j = 0; j < 4; j++) {
+            a[i + 4 * j] = t[j];
+        }
+    }
+}
+
+int nhangf(int a, int b)
+{
+    int ketqua = 0;
+    while (b != 0) {
+        if ((b & 1) == 1) {
+            ketqua = ketqua ^ a;
+        }
+        a = a << 1;
+        if ((a & 256) != 0) {
+            a = a ^ 0x11B;
+        }
+        b = b >> 1;
+    }
+    return ketqua;
+}
+
+void mixcolumns(int a[])
+{
+    for (int i = 0; i < 16; i += 4) {
+        int t[4];
+        for (int j = 0; j < 4; j++) {
+            t[j] = a[i + j];
+        }
+
+        a[i] = nhangf(t[0], 2) ^ nhangf(t[1], 3) ^ t[2] ^ t[3];
+        a[i + 1] = t[0] ^ nhangf(t[1], 2) ^ nhangf(t[2], 3) ^ t[3];
+        a[i + 2] = t[0] ^ t[1] ^ nhangf(t[2], 2) ^ nhangf(t[3], 3);
+        a[i + 3] = nhangf(t[0], 3) ^ t[1] ^ t[2] ^ nhangf(t[3], 2);
+    }
+}
+
 void sinhkhoa(int k[])
 {
     int rcon[10] = {0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1B, 0x36};
@@ -108,9 +159,7 @@ void sinhkhoa(int k[])
         cout << "\nSinh K" << vong << "\nRotWord = ";
         inhex(t, 0, 4);
 
-        for (int i = 0; i < 4; i++) {
-            t[i] = sbox[t[i]];
-        }
+        subbytes(t, 4);
         cout << "\nSubWord = ";
         inhex(t, 0, 4);
         cout << "\nRcon = ";
@@ -137,7 +186,7 @@ int main()
 {
     int a[16], k[176];
 
-    cout << "AES-128 - Buoc 7: sinh 11 khoa\n";
+    cout << "AES-128 - Buoc 8: vong ma hoa dau tien\n";
     cout << "Moi gia tri gom 32 ky tu hex, dien vao ma tran theo cot.\n";
     if (nhap("Ban ro", a) == false) {
         cout << "Ban ro khong hop le.\n";
@@ -155,6 +204,15 @@ int main()
 
     addroundkey(a, k, 0);
     inmatran("Sau AddRoundKey 0", a);
-    cout << "Chua thuc hien 10 vong AES.\n";
+    cout << "\nVong 1\n";
+    subbytes(a, 16);
+    inmatran("Sau SubBytes", a);
+    shiftrows(a);
+    inmatran("Sau ShiftRows", a);
+    mixcolumns(a);
+    inmatran("Sau MixColumns", a);
+    addroundkey(a, k, 1);
+    inmatran("Sau AddRoundKey 1", a);
+    cout << "Moi hoan thanh vong 1, chua co ban ma AES cuoi cung.\n";
     return 0;
 }
