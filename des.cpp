@@ -8,7 +8,6 @@ string hextobin(string chuoi)
         return "";
     }
 
-    string banghex = "0123456789ABCDEF";
     string ketqua = "";
 
     for (int i = 0; i < 16; i++) {
@@ -17,15 +16,12 @@ string hextobin(string chuoi)
             kytu = kytu - 'a' + 'A';
         }
 
-        int giatri = -1;
-        for (int j = 0; j < 16; j++) {
-            if (kytu == banghex[j]) {
-                giatri = j;
-                break;
-            }
-        }
-
-        if (giatri == -1) {
+        int giatri;
+        if (kytu >= '0' && kytu <= '9') {
+            giatri = kytu - '0';
+        } else if (kytu >= 'A' && kytu <= 'F') {
+            giatri = kytu - 'A' + 10;
+        } else {
             return "";
         }
 
@@ -37,38 +33,34 @@ string hextobin(string chuoi)
     return ketqua;
 }
 
-string hoanvi(string chuoi)
+string bintohex(string chuoi)
 {
-    int ip[64] = {
-        58, 50, 42, 34, 26, 18, 10, 2,
-        60, 52, 44, 36, 28, 20, 12, 4,
-        62, 54, 46, 38, 30, 22, 14, 6,
-        64, 56, 48, 40, 32, 24, 16, 8,
-        57, 49, 41, 33, 25, 17, 9, 1,
-        59, 51, 43, 35, 27, 19, 11, 3,
-        61, 53, 45, 37, 29, 21, 13, 5,
-        63, 55, 47, 39, 31, 23, 15, 7
-    };
+    string banghex = "0123456789ABCDEF";
     string ketqua = "";
 
-    for (int i = 0; i < 64; i++) {
-        ketqua += chuoi[ip[i] - 1];
+    for (int i = 0; i < (int)chuoi.length(); i += 4) {
+        int giatri = 0;
+        for (int j = 0; j < 4; j++) {
+            giatri = giatri * 2 + chuoi[i + j] - '0';
+        }
+        ketqua += banghex[giatri];
     }
 
     return ketqua;
 }
 
+string hoanvi(string chuoi, int bang[], int n)
+{
+    string ketqua = "";
+    for (int i = 0; i < n; i++) {
+        ketqua += chuoi[bang[i] - 1];
+    }
+    return ketqua;
+}
+
 string dichtrai(string chuoi, int so)
 {
-    for (int i = 0; i < so; i++) {
-        char dau = chuoi[0];
-        for (int j = 0; j < 27; j++) {
-            chuoi[j] = chuoi[j + 1];
-        }
-        chuoi[27] = dau;
-    }
-
-    return chuoi;
+    return chuoi.substr(so) + chuoi.substr(0, so);
 }
 
 void sinhkhoa(string khoa, string k[])
@@ -94,26 +86,18 @@ void sinhkhoa(string khoa, string k[])
         46, 42, 50, 36, 29, 32
     };
     int lich[16] = {1, 1, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 1};
-    string c = "", d = "";
+    string saupc1 = hoanvi(khoa, pc1, 56);
+    string c = saupc1.substr(0, 28);
+    string d = saupc1.substr(28);
 
-    for (int i = 0; i < 28; i++) {
-        c += khoa[pc1[i] - 1];
-        d += khoa[pc1[i + 28] - 1];
-    }
-
-    cout << "Sau PC1 = " << c + d << '\n';
+    cout << "Sau PC1 = " << saupc1 << '\n';
     cout << "C0 = " << c << '\n';
     cout << "D0 = " << d << '\n';
 
     for (int i = 0; i < 16; i++) {
         c = dichtrai(c, lich[i]);
         d = dichtrai(d, lich[i]);
-        string cd = c + d;
-        k[i] = "";
-
-        for (int j = 0; j < 48; j++) {
-            k[i] += cd[pc2[j] - 1];
-        }
+        k[i] = hoanvi(c + d, pc2, 48);
 
         cout << "C" << i + 1 << " = " << c << '\n';
         cout << "D" << i + 1 << " = " << d << '\n';
@@ -205,10 +189,7 @@ string hamf(string r, string khoa)
         19, 13, 30, 6, 22, 11, 4, 25
     };
 
-    string morong = "";
-    for (int i = 0; i < 48; i++) {
-        morong += r[e[i] - 1];
-    }
+    string morong = hoanvi(r, e, 48);
     cout << "E = " << morong << '\n';
 
     string tron = phepxor(morong, khoa);
@@ -230,10 +211,7 @@ string hamf(string r, string khoa)
     }
     cout << "S-box = " << saus << '\n';
 
-    string ketqua = "";
-    for (int i = 0; i < 32; i++) {
-        ketqua += saus[p[i] - 1];
-    }
+    string ketqua = hoanvi(saus, p, 32);
     cout << "P = " << ketqua << '\n';
 
     return ketqua;
@@ -241,9 +219,29 @@ string hamf(string r, string khoa)
 
 int main()
 {
+    int ip[64] = {
+        58, 50, 42, 34, 26, 18, 10, 2,
+        60, 52, 44, 36, 28, 20, 12, 4,
+        62, 54, 46, 38, 30, 22, 14, 6,
+        64, 56, 48, 40, 32, 24, 16, 8,
+        57, 49, 41, 33, 25, 17, 9, 1,
+        59, 51, 43, 35, 27, 19, 11, 3,
+        61, 53, 45, 37, 29, 21, 13, 5,
+        63, 55, 47, 39, 31, 23, 15, 7
+    };
+    int fp[64] = {
+        40, 8, 48, 16, 56, 24, 64, 32,
+        39, 7, 47, 15, 55, 23, 63, 31,
+        38, 6, 46, 14, 54, 22, 62, 30,
+        37, 5, 45, 13, 53, 21, 61, 29,
+        36, 4, 44, 12, 52, 20, 60, 28,
+        35, 3, 43, 11, 51, 19, 59, 27,
+        34, 2, 42, 10, 50, 18, 58, 26,
+        33, 1, 41, 9, 49, 17, 57, 25
+    };
     string banro, khoa;
 
-    cout << "DES - Buoc 4: ham f va vong DES dau tien\n";
+    cout << "DES - Buoc 5: ma hoa du 16 vong\n";
     cout << "Moi gia tri gom 16 ky tu hex (0-9, A-F).\n";
     cout << "Ban ro = ";
     cin >> banro;
@@ -264,12 +262,9 @@ int main()
     cout << "Ban ro (64 bit) = " << banrobit << '\n';
     cout << "Khoa   (64 bit) = " << khoabit << '\n';
 
-    string sauip = hoanvi(banrobit);
-    string l = "", r = "";
-    for (int i = 0; i < 32; i++) {
-        l += sauip[i];
-        r += sauip[i + 32];
-    }
+    string sauip = hoanvi(banrobit, ip, 64);
+    string l = sauip.substr(0, 32);
+    string r = sauip.substr(32);
 
     cout << "Sau IP = " << sauip << '\n';
     cout << "L0 = " << l << '\n';
@@ -278,13 +273,21 @@ int main()
     string k[16];
     sinhkhoa(khoabit, k);
 
-    cout << "\nVong 1\n";
-    cout << "K1 = " << k[0] << '\n';
-    string f = hamf(r, k[0]);
-    string lmoi = r;
-    string rmoi = phepxor(l, f);
-    cout << "L1 = " << lmoi << '\n';
-    cout << "R1 = " << rmoi << '\n';
-    cout << "Hoan thanh 1 vong, chua co ban ma DES cuoi cung.\n";
+    for (int i = 0; i < 16; i++) {
+        cout << "\nVong " << i + 1 << '\n';
+        cout << "K = " << k[i] << '\n';
+        string f = hamf(r, k[i]);
+        string rmoi = phepxor(l, f);
+        l = r;
+        r = rmoi;
+        cout << "L" << i + 1 << " = " << l << '\n';
+        cout << "R" << i + 1 << " = " << r << '\n';
+    }
+
+    string ghep = r + l;
+    string banma = hoanvi(ghep, fp, 64);
+    cout << "\nR16L16 = " << ghep << '\n';
+    cout << "Ban ma (bin) = " << banma << '\n';
+    cout << "Ban ma (hex) = " << bintohex(banma) << '\n';
     return 0;
 }
