@@ -186,7 +186,7 @@ int main()
 {
     int a[16], k[176];
 
-    cout << "AES-128 - Buoc 8: vong ma hoa dau tien\n";
+    cout << "AES-128 - Ma hoa 10 vong\n";
     cout << "Moi gia tri gom 32 ky tu hex, dien vao ma tran theo cot.\n";
     if (nhap("Ban ro", a) == false) {
         cout << "Ban ro khong hop le.\n";
@@ -204,15 +204,22 @@ int main()
 
     addroundkey(a, k, 0);
     inmatran("Sau AddRoundKey 0", a);
-    cout << "\nVong 1\n";
-    subbytes(a, 16);
-    inmatran("Sau SubBytes", a);
-    shiftrows(a);
-    inmatran("Sau ShiftRows", a);
-    mixcolumns(a);
-    inmatran("Sau MixColumns", a);
-    addroundkey(a, k, 1);
-    inmatran("Sau AddRoundKey 1", a);
-    cout << "Moi hoan thanh vong 1, chua co ban ma AES cuoi cung.\n";
+    for (int vong = 1; vong <= 10; vong++) {
+        cout << "\nVong " << vong << '\n';
+        subbytes(a, 16);
+        inmatran("Sau SubBytes", a);
+        shiftrows(a);
+        inmatran("Sau ShiftRows", a);
+        if (vong < 10) {
+            mixcolumns(a);
+            inmatran("Sau MixColumns", a);
+        }
+        addroundkey(a, k, vong);
+        inmatran("Sau AddRoundKey", a);
+    }
+
+    cout << "\nBan ma (hex) = ";
+    inhex(a, 0, 16);
+    cout << '\n';
     return 0;
 }

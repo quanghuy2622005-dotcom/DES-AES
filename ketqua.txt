@@ -207,7 +207,7 @@ Ban ma (bin) = 1000010111101000000100110101010000001111000010101011010000000101
 Ban ma (hex) = 85E813540F0AB405
 Dap an = 85E813540F0AB405
 
-AES-128 - Buoc 8: vong ma hoa dau tien.
+AES-128 - Ma hoa du 10 vong.
 Ban ro = 00112233445566778899AABBCCDDEEFF
 Khoa = 000102030405060708090A0B0C0D0E0F
 State ban dau:
@@ -313,10 +313,214 @@ Sau MixColumns:
 72 F5 BE B9
 64 BC 3B F9
 15 92 29 1A
-Sau AddRoundKey 1:
+Sau AddRoundKey:
 89 85 2D CB
 D8 5A 18 12
 10 CE 43 8F
 E8 68 D8 E4
-Moi hoan thanh vong 1, chua co ban ma AES cuoi cung.
-Da doi chieu tung buoc vong 1, ket qua dung.
+
+Vong 2
+Sau SubBytes:
+A7 97 D8 1F
+61 BE AD C9
+CA 8B 1A 73
+9B 45 61 69
+Sau ShiftRows:
+A7 97 D8 1F
+BE AD C9 61
+1A 73 CA 8B
+69 9B 45 61
+Sau MixColumns:
+FF 31 64 77
+87 D8 51 3A
+96 6A 51 D0
+84 51 FA 09
+Sau AddRoundKey:
+49 55 DA 1F
+15 E5 CA 0A
+59 D7 94 63
+8F A0 FA F7
+
+Vong 3
+Sau SubBytes:
+3B FC 57 C0
+59 D9 74 67
+CB 0E 22 FB
+73 E0 2D 68
+Sau ShiftRows:
+3B FC 57 C0
+D9 74 67 59
+22 FB CB 0E
+68 73 E0 2D
+Sau MixColumns:
+4C F7 2C 53
+9C 71 3F 4D
+1E F0 86 F2
+66 76 8E 56
+Sau AddRoundKey:
+FA 25 40 57
+63 B3 66 24
+6A 39 8A 4D
+28 C9 31 17
+
+Vong 4
+Sau SubBytes:
+2D 3F 09 5B
+FB 6D 33 36
+02 12 7E E3
+34 DD C7 F0
+Sau ShiftRows:
+2D 3F 09 5B
+6D 33 36 FB
+7E E3 02 12
+F0 34 DD C7
+Sau MixColumns:
+63 FC 97 75
+85 53 BE 47
+B7 8D 47 D6
+9F F9 8E 91
+Sau AddRoundKey:
+24 69 6E 88
+72 66 D2 42
+40 B3 75 5B
+23 FA 32 6C
+
+Vong 5
+Sau SubBytes:
+36 F9 9F C4
+40 33 B5 2C
+09 6D 9D 39
+26 2D 23 50
+Sau ShiftRows:
+36 F9 9F C4
+33 B5 2C 40
+9D 39 09 6D
+50 26 2D 23
+Sau MixColumns:
+F4 32 75 1D
+BC E5 F1 D0
+D4 54 D6 3B
+54 D0 C5 3C
+Sau AddRoundKey:
+C8 9B 25 B0
+16 7A 02 26
+77 C9 79 19
+BC 3B 92 96
+
+Vong 6
+Sau SubBytes:
+E8 14 3F E7
+47 DA 77 F7
+F5 DD B6 D4
+65 E2 4F 90
+Sau ShiftRows:
+E8 14 3F E7
+DA 77 F7 47
+B6 D4 F5 DD
+90 65 E2 4F
+Sau MixColumns:
+98 00 6B 8E
+16 F8 2C 5A
+EE 7F 04 D0
+74 55 9C 36
+Sau AddRoundKey:
+C6 F7 CC 84
+2F 5E 79 F9
+E1 ED 39 CF
+09 C3 5D 5D
+
+Vong 7
+Sau SubBytes:
+B4 68 4B 5F
+15 58 B6 99
+F8 55 12 8A
+01 2E 4C 4C
+Sau ShiftRows:
+B4 68 4B 5F
+58 B6 99 15
+12 8A F8 55
+4C 01 2E 4C
+Sau MixColumns:
+C5 9A F0 98
+7E 9B 5F C6
+1C D2 4B 34
+15 86 E0 39
+Sau AddRoundKey:
+D1 79 B4 D6
+87 C4 55 6F
+6C 30 94 F4
+0F 0A AD 1F
+
+Vong 8
+Sau SubBytes:
+3E B6 8D F6
+17 1C FC A8
+50 04 22 BF
+76 67 95 C0
+Sau ShiftRows:
+3E B6 8D F6
+1C FC A8 17
+22 BF 50 04
+C0 76 67 95
+Sau MixColumns:
+BA A1 D5 5F
+A0 F9 51 41
+3D B5 2C 4D
+E7 6E BA 23
+Sau AddRoundKey:
+FD 05 35 F1
+E3 E5 47 FE
+BA D0 96 37
+D2 D7 4E F1
+
+Vong 9
+Sau SubBytes:
+54 6B 96 A1
+11 D9 A0 BB
+F4 70 90 9A
+B5 0E 2F A1
+Sau ShiftRows:
+54 6B 96 A1
+D9 A0 BB 11
+90 9A F4 70
+A1 B5 0E 2F
+Sau MixColumns:
+E9 02 1B 35
+F7 30 F2 3C
+4E 20 CC 21
+EC F6 F2 C7
+Sau AddRoundKey:
+BD F2 0B 8B
+6E B5 61 10
+7C 77 21 B6
+3D 9E 6E 89
+
+Vong 10
+Sau SubBytes:
+7A 89 2B 3D
+9F D5 EF CA
+10 F5 FD 4E
+27 0B 9F A7
+Sau ShiftRows:
+7A 89 2B 3D
+D5 EF CA 9F
+FD 4E 10 F5
+A7 27 0B 9F
+Sau AddRoundKey:
+69 6A D8 70
+C4 7B CD B4
+E0 04 B7 C5
+D8 30 80 5A
+
+Ban ma (hex) = 69C4E0D86A7B0430D8CDB78070B4C55A
+Dap an = 69C4E0D86A7B0430D8CDB78070B4C55A
+Ket qua dung.
+
+Test them:
+Ban ro = 6BC1BEE22E409F96E93D7E117393172A
+Khoa = 2B7E151628AED2A6ABF7158809CF4F3C
+Ban ma (hex) = 3AD77BB40D7A3660A89ECAF32466EF97
+Ket qua dung.
+
+Nhap sai: Ban ro = 00112233
+Thong bao: Ban ro khong hop le.
